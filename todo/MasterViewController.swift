@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import FMDB
 
 class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     var objects = [Any]()
 
+    let dbm:DBManager = DBManager(dbFileName: "todo.db")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +27,20 @@ class MasterViewController: UITableViewController {
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
+        
+        if (dbm.isOK) {
+            let results = dbm.execQuery(sql: "select * from todo;")
+            
+            while results.next() {
+                let rs = todo_RS()
+                rs.toRecordSet(result: results)
+                objects.append(rs)
+            }
+        }
     }
+    
+    
+    
 
     override func viewWillAppear(_ animated: Bool) {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
