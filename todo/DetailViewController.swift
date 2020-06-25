@@ -18,10 +18,10 @@ class DetailViewController: UIViewController {
         // Update the user interface for the detail item.
         if let detail = detailItem {
             if let title = tfTitle {
-                tfTitle.text = detail.title
+                title.text = detail.title
             }
             if let description = tfDescription {
-                tfDescription.text = detail.description
+                description.text = detail.description
             }
         }
     }
